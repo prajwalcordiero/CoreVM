@@ -26,7 +26,12 @@ public:
     // Public interface
     void write_memory(uint16_t address, uint8_t value);
     void dump_registers() const;
-    void run();
+    void execute_instruction(uint8_t opcode);
+    void run(){
+        while (running && pc < MEM_SIZE) {
+            uint8_t opcode = memory[pc];
+            execute_instruction(opcode);
+        };
 };
 
 #endif
