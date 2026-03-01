@@ -174,10 +174,18 @@ void CoreVM::run() {
                 std::cout << "[HALT ] System Halted." << std::endl;
                 running = false;
                 break;
+            
 
             default:
-                pc++;
-                break;
+                std::cout << "\n!!! KERNEL PANIC !!!\n";
+                std::cout << "Invalid opcode: 0x"
+                    << std::hex << std::uppercase
+                    << (int)opcode << std::endl;
+                running = false;
+            break;
+            // default:
+            //     pc++;
+            //     break;
         }
     }
 }
