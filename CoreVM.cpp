@@ -170,14 +170,40 @@ void CoreVM::run() {
                 break;
             }
 
+            case 0x07: {
+                uint8_t low, high;
+                if (!fetch_byte(pc + 1, low)) break;
+                if (!fetch_byte(pc + 2, high)) break;
+                uint16_t address = (high << 8) | low;
+                if (address >= MEM_SIZE) {
+                    std::cout << "\n!!! KERNEL PANIC !!!\n";
+                    std::cout << "JMP out of bounds\n";
+                    running = false;
+                    break;
+                }
+                std::cout << "[JMP  ] Jumping to 0x"
+                    << std::hex << std::uppercase
+                    << address << std::dec << std::endl;
+                pc = address;
+                break;
+            }
+            
             case 0xFF:
                 std::cout << "[HALT ] System Halted." << std::endl;
                 running = false;
                 break;
+            
 
             default:
-                pc++;
-                break;
+                std::cout << "\n!!! KERNEL PANIC !!!\n";
+                std::cout << "Invalid opcode: 0x"
+                    << std::hex << std::uppercase
+                    << (int)opcode << std::endl;
+                running = false;
+            break;
+            // default:
+            //     pc++;
+            //     break;
         }
     }
 }
