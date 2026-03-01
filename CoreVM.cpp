@@ -181,6 +181,9 @@ void CoreVM::run() {
                     running = false;
                     break;
                 }
+                std::cout << "[JMP  ] Jumping to 0x"
+                    << std::hex << std::uppercase
+                    << address << std::dec << std::endl;
                 pc = address;
                 break;
             }
